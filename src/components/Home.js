@@ -15,10 +15,12 @@ function Home() {
   const [Movies, setMovies] = useState([]);
 
   useEffect(() => {
-    fetch("https://notflixtv.herokuapp.com/api/v1/movies?page=undefined")
+    fetch(
+      "https://api.themoviedb.org/3/movie/popular?api_key=57b75fd3bb7f3e28a2362d6568184208"
+    )
       .then((Response) => Response.json())
       .then((results) => {
-        setMovies(results.data.docs);
+        setMovies(results);
       });
   }, []);
 
@@ -33,7 +35,6 @@ function Home() {
           left: "0",
           width: "100%",
           height: "100vh",
-          // background: "rgba(0,0,0,.5)",
         }}
       ></div>
       <div>
@@ -51,9 +52,9 @@ function Home() {
           }}
           className="mySwiper"
         >
-          {Movies.map((film) => (
+          {Movies?.results?.map((film) => (
             <SwiperSlide>
-              <span onClick={() => navigate("/Detail/" + film._id)}>
+              <span onClick={() => navigate("/Detail/" + film.id)}>
                 <div
                   className="card"
                   style={{
@@ -83,12 +84,12 @@ function Home() {
                       {film.title}
                     </h5>
                     <p style={{ marginLeft: "25px", color: "white" }}>
-                      ⭐ {(film.rating / 2).toFixed(1)} / 5
+                      ⭐ {(film.vote_average / 2).toFixed(1)} / 5
                     </p>
                   </div>
                   <img
                     className="cardimage"
-                    src={"https://image.tmdb.org/t/p/w500" + film.poster}
+                    src={"https://image.tmdb.org/t/p/w500" + film.poster_path}
                     alt=""
                     style={{
                       width: "100%",
@@ -100,7 +101,6 @@ function Home() {
               </span>
             </SwiperSlide>
           ))}
-          ;
         </Swiper>
       </div>
       <div style={{ background: "#f1f5f9" }}>

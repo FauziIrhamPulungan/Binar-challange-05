@@ -1,7 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import NavigationBar from "../components/NavigationBar";
 
 function Deatail() {
   const { id } = useParams();
@@ -10,7 +9,10 @@ function Deatail() {
   const [movie, setMovie] = useState([]);
 
   useEffect(() => {
-    fetch("https://notflixtv.herokuapp.com/api/v1/movies/" + id)
+    fetch(
+      `https://api.themoviedb.org/3/movie/${id}?api_key=57b75fd3bb7f3e28a2362d6568184208` +
+        id
+    )
       .then((Response) => Response.json())
       .then((results) => setMovie(results.data));
   }, [id]);
@@ -41,9 +43,6 @@ function Deatail() {
             style={{
               width: "800px",
               height: "500px",
-
-              // background: "white",
-              // borderRadius: "32px",
             }}
           >
             <iframe
@@ -61,7 +60,6 @@ function Deatail() {
         </div>
       )}
       <div>
-        <NavigationBar />
         <div style={{ position: "relative" }}>
           <div
             style={{
@@ -86,7 +84,7 @@ function Deatail() {
             <div
               className="example"
               style={{
-                background: `url('https://image.tmdb.org/t/p/w500${movie.poster}')`,
+                background: `url('https://image.tmdb.org/t/p/w500${movie.poster_path}')`,
                 height: "125vh",
                 backgroundSize: "cover",
               }}
@@ -109,7 +107,7 @@ function Deatail() {
                   fontWeight: "600",
                 }}
               >
-                {movie.title}
+                {movie.original_title}
               </h1>
               <h4
                 style={{
@@ -129,7 +127,7 @@ function Deatail() {
               <h5
                 style={{ color: "white", fontSize: "18px", marginTop: "15px" }}
               >
-                ⭐ {(movie.rating / 2).toFixed(1)} / 5
+                ⭐ {(movie.vote_average / 2).toFixed(1)} / 5
               </h5>
               <button
                 onClick={() => {
