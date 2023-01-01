@@ -8,10 +8,13 @@ function All() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("https://notflixtv.herokuapp.com/api/v1/movies?search=&page=1")
+    fetch(
+      "https://api.themoviedb.org/3/movie/popular?api_key=57b75fd3bb7f3e28a2362d6568184208"
+    )
       .then((Response) => Response.json())
       .then((results) => setMovie(results.data.docs));
   }, []);
+
   return (
     <div>
       <div style={{ position: "relative" }}>
@@ -67,7 +70,7 @@ function All() {
                     }}
                   >
                     <img
-                      src={"https://image.tmdb.org/t/p/w500" + film.poster}
+                      src={"https://image.tmdb.org/t/p/w500" + film.poster_path}
                       alt=""
                       style={{
                         width: "100%",
